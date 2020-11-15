@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <title>Chart demonstrator</title>
+        <meta name="description" content="A simple page for demonstrating chart.js">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <script src="../static/js/Chart.min.js"></script>
+        <link rel="stylesheet" href="../static/css/bootstrap.min.css">
+    </head>
+    <body>
+        <div class="container">
+            <canvas id="plot"></canvas>
+        </div>
+
+        <script>
+            let plotContext = document.getElementById('plot').getContext('2d');
+            Chart.defaults.global.defaultFontColor = '#777'; // light gray
+            let plot = new Chart(plotContext, {
+                type: 'bar',
+
+                data: {
+                    labels: [{% for event in events %}
+                                {{event}},
+                            {% endfor %}],
+                    datasets: [{
+                        label: 'Frequencies',
+                        data: [{% for freq in frequencies %}
+                                {{freq}},
+                               {% endfor %}],
+                        backgroundColor: 'rgb(54, 162, 235, 0.5)', // light blue
+                        borderColor: 'rgb(54, 162, 235)',
+                        borderWidth: 2,
+                        hoverBorderWidth: 3,
+                    }]
+                },
+
+                options: {
+                    responsive: true,
+                    scales: {
+                        yAxes: [{
+                            ticks: {
+                                beginAtZero: true
+                            }
+                        }]
+                    }
+                }
+            });
+        </script>
+    </body>
+</html>
